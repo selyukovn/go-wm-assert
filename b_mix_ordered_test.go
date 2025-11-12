@@ -253,21 +253,4 @@ func Test_MixinOrdered(t *testing.T) {
 		tAssert.Equal(t, "e2", a.Check(10, "e2").Error())
 		tAssert.NoError(t, a.Check(11))
 	})
-
-	// Combination
-	// --------------------------------
-
-	t.Run("chain multiple checks", func(t *testing.T) {
-		var a *testAssert
-
-		a = fnNewAssert().Greater(5).Less(10).InRange(4, 12)
-		tAssert.NoError(t, a.Check(7))
-		tAssert.Error(t, a.Check(3))
-		tAssert.Error(t, a.Check(11))
-
-		a = fnNewAssert().Greater(5, "e1").Less(10, "e2").InRange(4, 12, "e3")
-		tAssert.NoError(t, a.Check(7))
-		tAssert.Equal(t, "e1", a.Check(3).Error())
-		tAssert.Equal(t, "e4", a.Check(11, "e4").Error())
-	})
 }

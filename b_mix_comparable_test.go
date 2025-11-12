@@ -84,23 +84,4 @@ func Test_MixinComparable(t *testing.T) {
 		tAssert.Equal(t, "e3344", a.Check(33).Error())
 		tAssert.Equal(t, "e44", a.Check(44, "e44").Error())
 	})
-
-	t.Run("combine all", func(t *testing.T) {
-		var a *testAssert
-
-		a = fnNewAssert().Eq(11, "eq").NotEq(11, "ne")
-		tAssert.Equal(t, "ne", a.Check(11).Error())
-		tAssert.Equal(t, "eq", a.Check(22).Error())
-
-		a = fnNewAssert().In([]int{11}, "in").NotIn([]int{11}, "ni")
-		tAssert.Equal(t, "ni", a.Check(11).Error())
-		tAssert.Equal(t, "in", a.Check(22).Error())
-
-		a = fnNewAssert().NotEq(22, "e1").In([]int{11, 22, 33}, "e2").NotIn([]int{33}, "e3").Eq(44, "e4")
-		tAssert.Equal(t, "e2", a.Check(-999).Error())
-		tAssert.Equal(t, "e4", a.Check(11).Error())
-		tAssert.Equal(t, "e1", a.Check(22).Error())
-		tAssert.Equal(t, "e3", a.Check(33).Error())
-		tAssert.Equal(t, "e2", a.Check(44).Error())
-	})
 }

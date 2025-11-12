@@ -16,19 +16,25 @@ func newMixinComparable[A assertInterface[T], T comparable](assert A) *mixinComp
 // Eq
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Eq
+//
+// Value expects to be equal to "eq".
 func (m *mixinComparable[A, T]) Eq(eq T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
-		if v != eq {
-			return mkCheckErr(
-				fmt.Sprintf("value expects to be equal to %s, got %s", fmtVal(eq), fmtVal(v)),
-				customErrMsg,
-			)
+		if v == eq {
+			return nil
 		}
-		return nil
+		return mkCheckErr(
+			fmt.Sprintf("value expects to be equal to %s, got %s", fmtVal(eq), fmtVal(v)),
+			customErrMsg,
+		)
 	})
 	return m.assert
 }
 
+// NotEq
+//
+// Value expects to be not equal to "notEq".
 func (m *mixinComparable[A, T]) NotEq(notEq T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
 		if v == notEq {
@@ -46,32 +52,37 @@ func (m *mixinComparable[A, T]) NotEq(notEq T, customErrMsg ...string) A {
 // In
 // ---------------------------------------------------------------------------------------------------------------------
 
+// In
+//
+// Value expects to be equal to any of the provided elements.
+//
+// Fails check, if no elements provided.
 func (m *mixinComparable[A, T]) In(slice []T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
-		found := false
 		for _, sv := range slice {
 			if sv == v {
-				found = true
-				break
+				return nil
 			}
 		}
-		if !found {
-			return mkCheckErr(
-				fmt.Sprintf("value expects to be in %s, got %s", fmtVal(slice), fmtVal(v)),
-				customErrMsg,
-			)
-		}
-		return nil
+		return mkCheckErr(
+			fmt.Sprintf("value expects to be in %s, got %s", fmtVal(slice), fmtVal(v)),
+			customErrMsg,
+		)
 	})
 	return m.assert
 }
 
+// NotIn
+//
+// Value expects to be not equal to each of the provided elements.
+//
+// Passes check, if no elements provided.
 func (m *mixinComparable[A, T]) NotIn(slice []T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
 		for _, sv := range slice {
 			if sv == v {
 				return mkCheckErr(
-					fmt.Sprintf("value expects not to be in %s, got %s", fmtVal(slice), fmtVal(v)),
+					fmt.Sprintf("value expects to be not in %s, got %s", fmtVal(slice), fmtVal(v)),
 					customErrMsg,
 				)
 			}
