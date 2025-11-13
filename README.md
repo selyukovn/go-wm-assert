@@ -53,6 +53,8 @@ The package provides assertions for specific types:
 as well as more abstract assertions for broader type support:
 
 - [`Comparable`](s_comparable.go) -- for any comparable type
+- [`SliceAny`](s_slice_any.go) -- for slice-based types with any type of elements
+- [`SliceCmp`](s_slice_cmp.go) -- for slice-based types with comparable type of elements
 
 Each assertion supports only specific methods related to its value type -- this protects you from accidental mistakes.
 For example, it is impossible to validate integer value via some length-based rule,
