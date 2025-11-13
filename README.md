@@ -171,8 +171,8 @@ func (f *SignUpForm) Validate() bool {
 	if f.name != "" {
 		f.errors["name"] = assert.String().
 			Word("Only letters and '-' allowed!").
-			LenMin(2, "Too short, isn't it?").
-			LenMax(255, "Too long, isn't it?").
+			RunesMin(2, "Too short, isn't it?").
+			RunesMax(255, "Too long, isn't it?").
 			NotIn(
 				[]string{ /* e.g. some set of bad words or so */ },
 				"Is that your real name, friend?",
