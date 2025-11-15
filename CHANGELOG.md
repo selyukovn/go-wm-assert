@@ -1,4 +1,14 @@
 
+## [0.2.1] - 2025-11-15
+
+*Note: v0.2.0 has been retracted.*
+
+### BUGFIX
+
+- Fixed `CRITICAL` issue on Go `1.18-1.20` with generic type inferring.
+
+---
+
 ## [0.2.0] - 2025-11-15
 
 ### BUGFIX
