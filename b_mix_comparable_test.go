@@ -52,6 +52,13 @@ func Test_MixinComparable(t *testing.T) {
 	t.Run("In", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().In([]int{})
+		tAssert.Error(t, a.Check(0))
+		tAssert.Error(t, a.Check(11))
+		tAssert.Error(t, a.Check(22))
+		tAssert.Error(t, a.Check(33))
+		tAssert.Error(t, a.Check(44))
+
 		a = fnNewAssert().In([]int{11, 22, 33})
 		tAssert.Error(t, a.Check(0))
 		tAssert.NoError(t, a.Check(11))
@@ -69,6 +76,13 @@ func Test_MixinComparable(t *testing.T) {
 
 	t.Run("NotIn", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().NotIn([]int{})
+		tAssert.NoError(t, a.Check(0))
+		tAssert.NoError(t, a.Check(11))
+		tAssert.NoError(t, a.Check(22))
+		tAssert.NoError(t, a.Check(33))
+		tAssert.NoError(t, a.Check(44))
 
 		a = fnNewAssert().NotIn([]int{11, 22, 33})
 		tAssert.NoError(t, a.Check(0))

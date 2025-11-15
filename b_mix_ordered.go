@@ -35,7 +35,7 @@ func (m *mixinOrdered[A, T]) less(orEq bool, than T, customErrMsg []string) A {
 		return mkCheckErr(
 			fmt.Sprintf(
 				"value expects to be less %s %s, got %s",
-				ternary[string](orEq, "or equal than", "than"),
+				ternary[string](orEq, "or equal to", "than"),
 				fmtVal(than),
 				fmtVal(v),
 			),
@@ -63,6 +63,9 @@ func (m *mixinOrdered[A, T]) LessEq(than T, customErrMsg ...string) A {
 
 func (m *mixinOrdered[A, T]) lessAny(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
+		if len(elems) == 0 {
+			return nil
+		}
 		for _, t := range elems {
 			if m.fnCmp(t, v) || (orEq && v == t) {
 				return nil
@@ -71,7 +74,7 @@ func (m *mixinOrdered[A, T]) lessAny(orEq bool, elems []T, customErrMsg []string
 		return mkCheckErr(
 			fmt.Sprintf(
 				"value expects to be less %s any of %s, got %s",
-				ternary[string](orEq, "or equal than", "than"),
+				ternary[string](orEq, "or equal to", "than"),
 				fmtVal(elems),
 				fmtVal(v),
 			),
@@ -103,12 +106,15 @@ func (m *mixinOrdered[A, T]) LessEqAny(elems []T, customErrMsg ...string) A {
 
 func (m *mixinOrdered[A, T]) lessEach(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
+		if len(elems) == 0 {
+			return nil
+		}
 		for _, t := range elems {
 			if !(m.fnCmp(t, v) || (orEq && v == t)) {
 				return mkCheckErr(
 					fmt.Sprintf(
 						"value expects to be less %s each of %s, got %s",
-						ternary[string](orEq, "or equal than", "than"),
+						ternary[string](orEq, "or equal to", "than"),
 						fmtVal(elems),
 						fmtVal(v),
 					),
@@ -151,7 +157,7 @@ func (m *mixinOrdered[A, T]) greater(orEq bool, than T, customErrMsg []string) A
 		return mkCheckErr(
 			fmt.Sprintf(
 				"value expects to be greater %s %s, got %s",
-				ternary[string](orEq, "or equal than", "than"),
+				ternary[string](orEq, "or equal to", "than"),
 				fmtVal(than),
 				fmtVal(v),
 			),
@@ -179,6 +185,9 @@ func (m *mixinOrdered[A, T]) GreaterEq(than T, customErrMsg ...string) A {
 
 func (m *mixinOrdered[A, T]) greaterAny(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
+		if len(elems) == 0 {
+			return nil
+		}
 		for _, t := range elems {
 			if m.fnCmp(v, t) || (orEq && v == t) {
 				return nil
@@ -187,7 +196,7 @@ func (m *mixinOrdered[A, T]) greaterAny(orEq bool, elems []T, customErrMsg []str
 		return mkCheckErr(
 			fmt.Sprintf(
 				"value expects to be greater %s any of %s, got %s",
-				ternary[string](orEq, "or equal than", "than"),
+				ternary[string](orEq, "or equal to", "than"),
 				fmtVal(elems),
 				fmtVal(v),
 			),
@@ -219,12 +228,15 @@ func (m *mixinOrdered[A, T]) GreaterEqAny(elems []T, customErrMsg ...string) A {
 
 func (m *mixinOrdered[A, T]) greaterEach(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
+		if len(elems) == 0 {
+			return nil
+		}
 		for _, t := range elems {
 			if !(m.fnCmp(v, t) || (orEq && v == t)) {
 				return mkCheckErr(
 					fmt.Sprintf(
 						"value expects to be greater %s each of %s, got %s",
-						ternary[string](orEq, "or equal than", "than"),
+						ternary[string](orEq, "or equal to", "than"),
 						fmtVal(elems),
 						fmtVal(v),
 					),
@@ -263,19 +275,17 @@ func (m *mixinOrdered[A, T]) GreaterEqEach(elems []T, customErrMsg ...string) A 
 // but won't provide any benefit to either the current library or to the client code.
 // ---------------------------------------------------------------------------------------------------------------------
 
-func (m *mixinOrdered[A, T]) inRangeCond(v, min, max T) bool {
-	return (m.fnCmp(v, min) || min == v) && (m.fnCmp(max, v) || v == max)
-}
-
 // InRange
 //
 // Value expects to be in range [min, max].
 //
-// Fails check, if min > max.
+// Fails check, if min > max -- it works like empty range.
 func (m *mixinOrdered[A, T]) InRange(min T, max T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
-		if m.inRangeCond(v, min, max) {
-			return nil
+		if m.fnCmp(max, min) || min == max {
+			if (m.fnCmp(v, min) || min == v) && (m.fnCmp(max, v) || v == max) {
+				return nil
+			}
 		}
 		return mkCheckErr(
 			fmt.Sprintf(
@@ -294,21 +304,24 @@ func (m *mixinOrdered[A, T]) InRange(min T, max T, customErrMsg ...string) A {
 //
 // Value expects to be not in range [min, max] -- i.e. to be in ranges [PossibleMin, min) or (max, PossibleMax]
 //
-// Passes check, if min > max.
+// Passes check, if min > max -- it works like empty range.
 func (m *mixinOrdered[A, T]) NotInRange(min T, max T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
-		if m.inRangeCond(v, min, max) {
-			return mkCheckErr(
-				fmt.Sprintf(
-					"value expects not to be in range [%s, %s], got %s",
-					fmtVal(min),
-					fmtVal(max),
-					fmtVal(v),
-				),
-				customErrMsg,
-			)
+		if m.fnCmp(min, max) {
+			return nil
 		}
-		return nil
+		if m.fnCmp(min, v) || m.fnCmp(v, max) {
+			return nil
+		}
+		return mkCheckErr(
+			fmt.Sprintf(
+				"value expects to be not in range [%s, %s], got %s",
+				fmtVal(min),
+				fmtVal(max),
+				fmtVal(v),
+			),
+			customErrMsg,
+		)
 	})
 	return m.assert
 }

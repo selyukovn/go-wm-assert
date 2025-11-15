@@ -59,9 +59,11 @@ func (m *mixinComparable[A, T]) NotEq(notEq T, customErrMsg ...string) A {
 // Fails check, if no elements provided.
 func (m *mixinComparable[A, T]) In(slice []T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
-		for _, sv := range slice {
-			if sv == v {
-				return nil
+		if len(slice) > 0 {
+			for _, sv := range slice {
+				if sv == v {
+					return nil
+				}
 			}
 		}
 		return mkCheckErr(
@@ -79,6 +81,9 @@ func (m *mixinComparable[A, T]) In(slice []T, customErrMsg ...string) A {
 // Passes check, if no elements provided.
 func (m *mixinComparable[A, T]) NotIn(slice []T, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
+		if len(slice) == 0 {
+			return nil
+		}
 		for _, sv := range slice {
 			if sv == v {
 				return mkCheckErr(

@@ -24,6 +24,8 @@ func Test_MixinLen(t *testing.T) {
 	t.Run("LenEq", func(t *testing.T) {
 		v := "hello"
 
+		tAssert.Error(t, fnNewAssert().LenEq(-5).Check(v))
+
 		tAssert.NoError(t, fnNewAssert().LenEq(5).Check(v))
 
 		tAssert.Error(t, fnNewAssert().LenEq(3).Check(v))
@@ -36,6 +38,8 @@ func Test_MixinLen(t *testing.T) {
 	t.Run("LenNotEq", func(t *testing.T) {
 		v := "world"
 
+		tAssert.NoError(t, fnNewAssert().LenNotEq(-3).Check(v))
+
 		tAssert.NoError(t, fnNewAssert().LenNotEq(3).Check(v))
 
 		tAssert.Error(t, fnNewAssert().LenNotEq(5).Check(v))
@@ -45,6 +49,8 @@ func Test_MixinLen(t *testing.T) {
 	})
 
 	t.Run("LenMin", func(t *testing.T) {
+		tAssert.NoError(t, fnNewAssert().LenMin(-3).Check(""))
+
 		for _, sucCase := range []string{"puppy", "elephant"} {
 			tAssert.NoError(t, fnNewAssert().LenMin(5).Check(sucCase))
 		}
@@ -57,6 +63,8 @@ func Test_MixinLen(t *testing.T) {
 	})
 
 	t.Run("LenMax", func(t *testing.T) {
+		tAssert.Error(t, fnNewAssert().LenMax(-3).Check(""))
+
 		for _, sucCase := range []string{"cat", "bird", "puppy"} {
 			tAssert.NoError(t, fnNewAssert().LenMax(5).Check(sucCase))
 		}
@@ -69,10 +77,17 @@ func Test_MixinLen(t *testing.T) {
 	})
 
 	t.Run("LenInRange", func(t *testing.T) {
+		tAssert.NoError(t, fnNewAssert().LenInRange(-5, 0).Check(""))
+		tAssert.Error(t, fnNewAssert().LenInRange(0, -3).Check(""))
+		tAssert.Error(t, fnNewAssert().LenInRange(-5, -3).Check(""))
+		tAssert.Error(t, fnNewAssert().LenInRange(-3, -5).Check(""))
+
 		for _, sucCase := range []string{"cat", "bird", "puppy"} {
+			tAssert.Error(t, fnNewAssert().LenInRange(5, 3).Check(sucCase))
 			tAssert.NoError(t, fnNewAssert().LenInRange(3, 5).Check(sucCase))
 		}
 		for _, errCase := range []string{"", "assert", "elephant"} {
+			tAssert.Error(t, fnNewAssert().LenInRange(5, 3).Check(errCase))
 			tAssert.Error(t, fnNewAssert().LenInRange(3, 5).Check(errCase))
 			tAssert.Equal(t, "e1", fnNewAssert().LenInRange(3, 5, "e1").Check(errCase).Error())
 			tAssert.Equal(t, "e2", fnNewAssert().LenInRange(3, 5, "e1").Check(errCase, "e2").Error())
@@ -81,10 +96,17 @@ func Test_MixinLen(t *testing.T) {
 	})
 
 	t.Run("LenNotInRange", func(t *testing.T) {
+		tAssert.Error(t, fnNewAssert().LenNotInRange(-5, 3).Check(""))
+		tAssert.NoError(t, fnNewAssert().LenNotInRange(3, -5).Check(""))
+		tAssert.NoError(t, fnNewAssert().LenNotInRange(-5, -3).Check(""))
+		tAssert.NoError(t, fnNewAssert().LenNotInRange(-3, -5).Check(""))
+
 		for _, sucCase := range []string{"", "assert", "elephant"} {
+			tAssert.NoError(t, fnNewAssert().LenNotInRange(5, 3).Check(sucCase))
 			tAssert.NoError(t, fnNewAssert().LenNotInRange(3, 5).Check(sucCase))
 		}
 		for _, errCase := range []string{"cat", "bird", "puppy"} {
+			tAssert.NoError(t, fnNewAssert().LenNotInRange(5, 3).Check(errCase))
 			tAssert.Error(t, fnNewAssert().LenNotInRange(3, 5).Check(errCase))
 			tAssert.Equal(t, "e1", fnNewAssert().LenNotInRange(3, 5, "e1").Check(errCase).Error())
 			tAssert.Equal(t, "e2", fnNewAssert().LenNotInRange(3, 5, "e1").Check(errCase, "e2").Error())

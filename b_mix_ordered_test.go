@@ -56,6 +56,11 @@ func Test_MixinOrdered(t *testing.T) {
 	t.Run("LessAny", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().LessAny([]int{})
+		tAssert.NoError(t, a.Check(3))
+		tAssert.NoError(t, a.Check(8))
+		tAssert.NoError(t, a.Check(12))
+
 		a = fnNewAssert().LessAny([]int{5, 10})
 		tAssert.NoError(t, a.Check(3))
 		tAssert.NoError(t, a.Check(8))
@@ -70,6 +75,13 @@ func Test_MixinOrdered(t *testing.T) {
 
 	t.Run("LessEqAny", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().LessEqAny([]int{})
+		tAssert.NoError(t, a.Check(5))
+		tAssert.NoError(t, a.Check(10))
+		tAssert.NoError(t, a.Check(3))
+		tAssert.NoError(t, a.Check(8))
+		tAssert.NoError(t, a.Check(15))
 
 		a = fnNewAssert().LessEqAny([]int{5, 10})
 		tAssert.NoError(t, a.Check(5))
@@ -90,6 +102,11 @@ func Test_MixinOrdered(t *testing.T) {
 	t.Run("LessEach", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().LessEach([]int{})
+		tAssert.NoError(t, a.Check(4))
+		tAssert.NoError(t, a.Check(6))
+		tAssert.NoError(t, a.Check(12))
+
 		a = fnNewAssert().LessEach([]int{5, 10})
 		tAssert.NoError(t, a.Check(4))
 		tAssert.Error(t, a.Check(6))
@@ -103,6 +120,12 @@ func Test_MixinOrdered(t *testing.T) {
 
 	t.Run("LessEqEach", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().LessEqEach([]int{})
+		tAssert.NoError(t, a.Check(5))
+		tAssert.NoError(t, a.Check(3))
+		tAssert.NoError(t, a.Check(7))
+		tAssert.NoError(t, a.Check(12))
 
 		a = fnNewAssert().LessEqEach([]int{5, 10})
 		tAssert.NoError(t, a.Check(5))
@@ -152,6 +175,11 @@ func Test_MixinOrdered(t *testing.T) {
 	t.Run("GreaterAny", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().GreaterAny([]int{})
+		tAssert.NoError(t, a.Check(7))
+		tAssert.NoError(t, a.Check(12))
+		tAssert.NoError(t, a.Check(3))
+
 		a = fnNewAssert().GreaterAny([]int{5, 10})
 		tAssert.NoError(t, a.Check(7))
 		tAssert.NoError(t, a.Check(12))
@@ -166,6 +194,13 @@ func Test_MixinOrdered(t *testing.T) {
 
 	t.Run("GreaterEqAny", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().GreaterEqAny([]int{})
+		tAssert.NoError(t, a.Check(5))
+		tAssert.NoError(t, a.Check(10))
+		tAssert.NoError(t, a.Check(7))
+		tAssert.NoError(t, a.Check(12))
+		tAssert.NoError(t, a.Check(3))
 
 		a = fnNewAssert().GreaterEqAny([]int{5, 10})
 		tAssert.NoError(t, a.Check(5))
@@ -186,6 +221,11 @@ func Test_MixinOrdered(t *testing.T) {
 	t.Run("GreaterEach", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().GreaterEach([]int{})
+		tAssert.NoError(t, a.Check(12))
+		tAssert.NoError(t, a.Check(8))
+		tAssert.NoError(t, a.Check(3))
+
 		a = fnNewAssert().GreaterEach([]int{5, 10})
 		tAssert.NoError(t, a.Check(12))
 		tAssert.Error(t, a.Check(8))
@@ -199,6 +239,13 @@ func Test_MixinOrdered(t *testing.T) {
 
 	t.Run("GreaterEqEach", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().GreaterEqEach([]int{})
+		tAssert.NoError(t, a.Check(10))
+		tAssert.NoError(t, a.Check(12))
+		tAssert.NoError(t, a.Check(8))
+		tAssert.NoError(t, a.Check(5))
+		tAssert.NoError(t, a.Check(3))
 
 		a = fnNewAssert().GreaterEqEach([]int{5, 10})
 		tAssert.NoError(t, a.Check(10))
@@ -221,6 +268,12 @@ func Test_MixinOrdered(t *testing.T) {
 	t.Run("InRange", func(t *testing.T) {
 		var a *testAssert
 
+		a = fnNewAssert().InRange(10, 5)
+		tAssert.Error(t, a.Check(4))
+		tAssert.Error(t, a.Check(5))
+		tAssert.Error(t, a.Check(7))
+		tAssert.Error(t, a.Check(10))
+
 		a = fnNewAssert().InRange(5, 10)
 		tAssert.Error(t, a.Check(4))
 		tAssert.NoError(t, a.Check(5))
@@ -238,6 +291,13 @@ func Test_MixinOrdered(t *testing.T) {
 
 	t.Run("NotInRange", func(t *testing.T) {
 		var a *testAssert
+
+		a = fnNewAssert().NotInRange(10, 5)
+		tAssert.NoError(t, a.Check(4))
+		tAssert.NoError(t, a.Check(5))
+		tAssert.NoError(t, a.Check(7))
+		tAssert.NoError(t, a.Check(10))
+		tAssert.NoError(t, a.Check(11))
 
 		a = fnNewAssert().NotInRange(5, 10)
 		tAssert.NoError(t, a.Check(4))

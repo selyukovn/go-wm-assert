@@ -139,12 +139,16 @@ func (m *mixinLen[A, T]) LenMax(max int, customErrMsg ...string) A {
 //
 // Length expects to be in range [min, max].
 //
+// Fails check, if min > max -- it works like empty range.
+//
 // Logically incorrect params (e.g. negative values, etc.) are processed as usual.
 func (m *mixinLen[A, T]) LenInRange(min, max int, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
 		l := m.lenVal(v)
-		if m.lenOrdered().InRange(min, max).Check(l) == nil {
-			return nil
+		if min <= max {
+			if m.lenOrdered().InRange(min, max).Check(l) == nil {
+				return nil
+			}
 		}
 		return mkCheckErr(
 			fmt.Sprintf(
@@ -164,9 +168,14 @@ func (m *mixinLen[A, T]) LenInRange(min, max int, customErrMsg ...string) A {
 //
 // Length expects to be not in range [min, max] -- i.e. to be in ranges [0, min) or (max, MaxInt].
 //
+// Passes check, if min > max -- it works like empty range.
+//
 // Logically incorrect params (e.g. negative values, etc.) are processed as usual.
 func (m *mixinLen[A, T]) LenNotInRange(min, max int, customErrMsg ...string) A {
 	m.assert.addCheck(func(v T) error {
+		if min > max {
+			return nil
+		}
 		l := m.lenVal(v)
 		if m.lenOrdered().NotInRange(min, max).Check(l) == nil {
 			return nil
