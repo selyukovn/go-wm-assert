@@ -20,7 +20,7 @@ type mixinSliceAny[A assertInterface[S], S sliceType[E], E any] struct {
 
 func newMixinSliceAny[A assertInterface[S], S sliceType[E], E any](assert A) *mixinSliceAny[A, S, E] {
 	return &mixinSliceAny[A, S, E]{
-		mixinLen: newMixinLen(assert),
+		mixinLen: newMixinLen[A, S](assert),
 	}
 }
 
