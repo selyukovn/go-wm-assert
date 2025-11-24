@@ -35,6 +35,16 @@ type assertInterface[T any] interface {
 	//
 	// Calls CheckAll and panics with the error slice if validation fails.
 	MustAll(v T)
+
+	// MustGet
+	//
+	// Works same as Must, but returns the value, if no panic occurred.
+	MustGet(v T, customErrMsg ...string) T
+
+	// MustAllGet
+	//
+	// Works same as MustAll, but returns the value, if no panic occurred.
+	MustAllGet(v T) T
 }
 
 // #####################################################################################################################
@@ -113,6 +123,22 @@ func (a *assert[T]) MustAll(v T) {
 	if len(errs) > 0 {
 		panic(errs)
 	}
+}
+
+// MustGet
+//
+// Works same as Must, but returns the value, if no panic occurred.
+func (a *assert[T]) MustGet(v T, customErrMsg ...string) T {
+	a.Must(v, customErrMsg...)
+	return v
+}
+
+// MustAllGet
+//
+// Works same as MustAll, but returns the value, if no panic occurred.
+func (a *assert[T]) MustAllGet(v T) T {
+	a.MustAll(v)
+	return v
 }
 
 // #####################################################################################################################

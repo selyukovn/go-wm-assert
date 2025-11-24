@@ -62,9 +62,10 @@ because [`Num`](s_num.go) assertion does not have methods to add such validation
 
 Each assertion supports a [`Custom()`](b_mix_custom.go) check for cases not covered by built-ins.
 
-Assertions support two types of results:
-panic (via the [`Must()`](b_assert.go) or [`MustAll()`]((b_assert.go)) methods)
-and returning errors (via the [`Check()`](b_assert.go) or [`CheckAll()`](b_assert.go) methods).
+Assertions support a few types of results:
+- panic via the [`Must()`](b_assert.go) or [`MustAll()`]((b_assert.go)) methods
+- panic or returning value via the [`MustGet()`](b_assert.go) or [`MustAllGet()`]((b_assert.go)) methods
+- returning errors via the [`Check()`](b_assert.go) or [`CheckAll()`](b_assert.go) methods
 
 Error messages can be customized for any rule as well as for the whole chain.
 
