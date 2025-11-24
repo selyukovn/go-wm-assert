@@ -45,7 +45,7 @@ assert.Str().Word().LenMax(5).Check(value)
 The package provides assertions for specific types:
 
 - [`Bool`](s_bool.go)
-- [`Num`](s_num.go) -- for all _int_, _uint_ and _float_ types (see [`NumericTypes`](s_num.go))
+- [`Num`](s_num.go) -- for all _int_, _uint_ and _float_ based types (see [`NumericTypes`](s_num.go))
 - [`Str`](s_str.go)
 - [`Time`](s_time.go) -- for `time.Time` type
 - [`TimeDur`](s_time_dur.go) -- for `time.Duration` type
