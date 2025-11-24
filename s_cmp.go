@@ -6,6 +6,9 @@ type AComparable[T comparable] struct {
 	*mixinCustom[*AComparable[T], T]
 }
 
+// Comparable
+//
+// Deprecated: use Cmp instead.
 func Comparable[T comparable]() *AComparable[T] {
 	a := new(AComparable[T])
 
@@ -16,4 +19,8 @@ func Comparable[T comparable]() *AComparable[T] {
 	}
 
 	return a
+}
+
+func Cmp[T comparable]() *AComparable[T] {
+	return Comparable[T]()
 }

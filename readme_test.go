@@ -18,7 +18,7 @@ func Test_Readme(t *testing.T) {
 
 		Deactivate := func(a *Account, deactivatedAt time.Time, evs *EventCollection) error {
 			Time().NotZero().LessEq(time.Now()).Must(deactivatedAt)
-			Comparable[*EventCollection]().NotEq(nil).Must(evs)
+			Cmp[*EventCollection]().NotEq(nil).Must(evs)
 			// ...
 			return nil
 		}
@@ -39,7 +39,7 @@ func Test_Readme(t *testing.T) {
 		type Name struct{ value string }
 
 		NameFromString := func(value string) (Name, error) {
-			err := String().Word().Check(value, fmt.Sprintf("Name %q is incorrect!", value))
+			err := Str().Word().Check(value, fmt.Sprintf("Name %q is incorrect!", value))
 
 			if err != nil {
 				return Name{}, err
@@ -78,7 +78,7 @@ func Test_Readme(t *testing.T) {
 				"agreement": {},
 			}
 
-			f.errors["email"] = String().
+			f.errors["email"] = Str().
 				NotEmpty("Email is required!").
 				Regexp(
 					emailRegexpCompiled,
@@ -95,7 +95,7 @@ func Test_Readme(t *testing.T) {
 
 			// optional field, remember?
 			if f.name != "" {
-				f.errors["name"] = String().
+				f.errors["name"] = Str().
 					Word("Only letters and '-' allowed!").
 					RunesMin(2, "Too short, isn't it?").
 					RunesMax(255, "Too long, isn't it?").
@@ -106,7 +106,7 @@ func Test_Readme(t *testing.T) {
 					CheckAll(f.name)
 			}
 
-			f.errors["age"] = Numeric[uint]().
+			f.errors["age"] = Num[uint]().
 				GreaterEq(18, "Things are serious -- come back later!").
 				Less(65, "Take a rest, friend!").
 				CheckAll(f.age)

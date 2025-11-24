@@ -32,7 +32,7 @@
 
 - Added [`Len`](b_mix_len.go) mixin (from `String` specific Len...-methods)
   - LenEq / LenNotEq / LenMin / LenMax / LenInRange / LenNotInRange
-  - [`String`](s_string.go) from now includes all methods from `Len` mixin
+  - [`String`](s_str.go) from now includes all methods from `Len` mixin
 
 - Added [`SliceAny`](b_mix_slice.go) mixin
   - extends `Len` mixin
@@ -53,7 +53,7 @@
   - `Custom` mixin
   - `SliceCmp` mixin
 
-- Added new rules to [`String`](s_string.go) specific type
+- Added new rules to [`String`](s_str.go) specific type
   - to check substrings 
     - PrefixEq / PrefixNotEq / PrefixIn / PrefixNotIn
     - SuffixEq / SuffixNotEq / SuffixIn / SuffixNotIn
@@ -100,17 +100,17 @@ First implementation of the package.
       - `Custom` mixin
       - True / False aliases
 
-    - [`Comparable[T comparable]`](s_comparable.go)
+    - [`Comparable[T comparable]`](s_cmp.go)
       - `Comparable` mixin
       - `Custom` mixin
 
-    - [`Numeric[T NumericTypes]`](s_numeric.go)
+    - [`Numeric[T NumericTypes]`](s_num.go)
       - `Comparable` mixin
       - `Custom` mixin
       - `Ordered` mixin
       - sign aliases: Negative / Zero / NotZero / Positive
 
-    - [`String`](s_string.go) 
+    - [`String`](s_str.go) 
       - `Comparable` mixin
       - `Custom` mixin
       - Empty / NotEmpty aliases
@@ -123,7 +123,7 @@ First implementation of the package.
       - `Ordered` mixin
       - Zero / NotZero aliases
 
-    - [`TimeDuration`](s_time_duration.go)
+    - [`TimeDuration`](s_time_dur.go)
       - `Comparable` mixin
       - `Custom` mixin
       - `Ordered` mixin

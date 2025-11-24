@@ -8,7 +8,7 @@ Simple, type‑specific fluent assertions for Go
 Requires Go (1.18) or later.
 
 ```
-assert.String().Word().LenMax(5).Check(value)
+assert.Str().Word().LenMax(5).Check(value)
 ```
 
 ## Reasons
@@ -39,26 +39,26 @@ This package ~~un autre package de validation, mais avec les cartes et les femme
 provides a simple type-specific fluent interface to build validations in a way like
 
 ```
-assert.String().Word().LenMax(5).Check(value)
+assert.Str().Word().LenMax(5).Check(value)
 ```
 
 The package provides assertions for specific types:
 
 - [`Bool`](s_bool.go)
-- [`Numeric`](s_numeric.go) -- for all _int_, _uint_ and _float_ types (see [`NumericTypes`](s_numeric.go))
-- [`String`](s_string.go)
+- [`Num`](s_num.go) -- for all _int_, _uint_ and _float_ types (see [`NumericTypes`](s_num.go))
+- [`Str`](s_str.go)
 - [`Time`](s_time.go) -- for `time.Time` type
-- [`TimeDuration`](s_time_duration.go) -- for `time.Duration` type
+- [`TimeDur`](s_time_dur.go) -- for `time.Duration` type
 
 as well as more abstract assertions for broader type support:
 
-- [`Comparable`](s_comparable.go) -- for any comparable type
+- [`Cmp`](s_cmp.go) -- for any comparable type
 - [`SliceAny`](s_slice_any.go) -- for slice-based types with any type of elements
 - [`SliceCmp`](s_slice_cmp.go) -- for slice-based types with comparable type of elements
 
 Each assertion supports only specific methods related to its value type -- this protects you from accidental mistakes.
 For example, it is impossible to validate integer value via some length-based rule,
-because [`Numeric`](s_numeric.go) assertion does not have methods to add such validation to the chain.
+because [`Num`](s_num.go) assertion does not have methods to add such validation to the chain.
 
 Each assertion supports a [`Custom()`](b_mix_custom.go) check for cases not covered by built-ins.
 
@@ -88,7 +88,7 @@ type EventCollection struct{ /* ... */ }
 
 func (a *Account) Deactivate(deactivatedAt time.Time, evs *EventCollection) error {
 	assert.Time().NotZero().LessEq(time.Now()).Must(deactivatedAt)
-	assert.Comparable[*EventCollection]().NotEq(nil).Must(evs)
+	assert.Cmp[*EventCollection]().NotEq(nil).Must(evs)
 
 	// ...
 
@@ -113,7 +113,7 @@ type Name struct{ value string }
 
 func NameFromString(value string) (Name, error) {
 	// custom error message that overrides any other in the chain */
-	err := assert.String().Word().Check(value, fmt.Sprintf("Name %q is incorrect!", value))
+	err := assert.Str().Word().Check(value, fmt.Sprintf("Name %q is incorrect!", value))
 
 	if err != nil {
 		return Name{}, err
@@ -152,7 +152,7 @@ func (f *SignUpForm) Validate() bool {
 		"agreement": {},
 	}
 
-	f.errors["email"] = assert.String().
+	f.errors["email"] = assert.Str().
 		NotEmpty("Email is required!").
 		Regexp(
 			emailRegexpCompiled,
@@ -169,7 +169,7 @@ func (f *SignUpForm) Validate() bool {
 
 	// optional field, remember?
 	if f.name != "" {
-		f.errors["name"] = assert.String().
+		f.errors["name"] = assert.Str().
 			Word("Only letters and '-' allowed!").
 			RunesMin(2, "Too short, isn't it?").
 			RunesMax(255, "Too long, isn't it?").
@@ -180,7 +180,7 @@ func (f *SignUpForm) Validate() bool {
 			CheckAll(f.name)
 	}
 
-	f.errors["age"] = assert.Numeric[uint]().
+	f.errors["age"] = assert.Num[uint]().
 		GreaterEq(18, "Things are serious -- come back later!").
 		Less(65, "Take a rest, friend!").
 		CheckAll(f.age)
@@ -206,5 +206,5 @@ func (f *SignUpForm) NameErrors() []error {
 ## Package Structure
 
 - `b_*.go` — basic components
-- `s_*.go` — specific assertions (`String`, `Numeric`, etc.)
+- `s_*.go` — specific assertions (`Str`, `Num`, etc.)
 - `readme_test.go` — examples from the Readme to be sure they really work :)

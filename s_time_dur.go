@@ -15,6 +15,9 @@ func timeDurationFnCmp(bigger, smaller time.Duration) bool {
 	return bigger > smaller
 }
 
+// TimeDuration
+//
+// Deprecated: use TimeDur() instead
 func TimeDuration() *ATimeDuration {
 	a := new(ATimeDuration)
 
@@ -25,6 +28,10 @@ func TimeDuration() *ATimeDuration {
 	}
 
 	return a
+}
+
+func TimeDur() *ATimeDuration {
+	return TimeDuration()
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

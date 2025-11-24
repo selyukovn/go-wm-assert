@@ -17,6 +17,9 @@ func numericFnCmp[T NumericTypes](bigger, smaller T) bool {
 	return bigger > smaller
 }
 
+// Numeric
+//
+// Deprecated: use Num() instead.
 func Numeric[T NumericTypes]() *ANumeric[T] {
 	a := new(ANumeric[T])
 
@@ -28,6 +31,10 @@ func Numeric[T NumericTypes]() *ANumeric[T] {
 	}
 
 	return a
+}
+
+func Num[T NumericTypes]() *ANumeric[T] {
+	return Numeric[T]()
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -14,6 +14,9 @@ type AString struct {
 	*mixinLen[*AString, string]
 }
 
+// String
+//
+// Deprecated: use Str() instead.
 func String() *AString {
 	a := new(AString)
 
@@ -25,6 +28,10 @@ func String() *AString {
 	}
 
 	return a
+}
+
+func Str() *AString {
+	return String()
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
