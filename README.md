@@ -52,6 +52,7 @@ The package provides assertions for specific types:
 
 as well as more abstract assertions for broader type support:
 
+- [`Any`](s_any.go) -- for any type
 - [`Cmp`](s_cmp.go) -- for any comparable type
 - [`SliceAny`](s_slice_any.go) -- for slice-based types with any type of elements
 - [`SliceCmp`](s_slice_cmp.go) -- for slice-based types with comparable type of elements
