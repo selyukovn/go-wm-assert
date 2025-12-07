@@ -37,18 +37,17 @@ func Test_FmtVal(t *testing.T) {
 		tAssert.Equal(t, "false", fmtVal(false))
 
 		// slice
-		tAssert.Equal(t, "[1 2 3]", fmtVal([]int{1, 2, 3}))
+		tAssert.Equal(t, "[]int{1, 2, 3}", fmtVal([]int{1, 2, 3}))
 
 		// map
-		tAssert.Contains(t, fmtVal(map[string]int{"a": 1, "b": 2}), "a:1")
-		tAssert.Contains(t, fmtVal(map[string]int{"a": 1, "b": 2}), "b:2")
+		tAssert.Equal(t, fmtVal(map[string]int{"a": 1, "b": 2}), "map[string]int{\"a\":1, \"b\":2}")
 
 		// struct
 		structSample := struct {
 			A int
 			B string
 		}{A: 1, B: "test"}
-		tAssert.Equal(t, "{1 test}", fmtVal(structSample))
+		tAssert.Equal(t, "struct { A int; B string }{A:1, B:\"test\"}", fmtVal(structSample))
 
 		// pointer
 		tAssert.NotPanics(t, func() { fmtVal(&structSample) })

@@ -21,7 +21,7 @@ func fmtVal[T any](v T) string {
 		// e.g. time.Duration.String() provides better format -- better than %v
 		return fmt.Sprintf("%s", tv)
 	default:
-		return fmt.Sprintf("%v", tv)
+		return fmt.Sprintf("%#v", tv)
 	}
 }
 
