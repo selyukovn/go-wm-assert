@@ -70,6 +70,13 @@ Assertions support a few types of results:
 
 Error messages can be customized for any rule as well as for the whole chain.
 
+The package also provides [shortcuts](shortcuts.go)
+for the most popular assertions in package-level functions with `...Check` / `...Must` / `...MustGet` result versions:
+- `NotZero` 
+- `NotNilDeep`
+- `True`
+- `False`
+
 ## [Examples](readme_test.go)
 
 ### Method arguments assertion (primary use-case)
@@ -91,6 +98,8 @@ type EventCollection struct{ /* ... */ }
 func (a *Account) Deactivate(deactivatedAt time.Time, evs *EventCollection) error {
 	assert.Time().NotZero().LessEq(time.Now()).Must(deactivatedAt)
 	assert.Cmp[*EventCollection]().NotEq(nil).Must(evs)
+	// or with popular shortcut instead of Cmp[T]
+	assert.NotNilDeepMust(evs)
 
 	// ...
 
@@ -209,4 +218,5 @@ func (f *SignUpForm) NameErrors() []error {
 
 - `b_*.go` — basic components
 - `s_*.go` — specific assertions (`Str`, `Num`, etc.)
+- `shortcuts.go` — shortcuts for the most popular assertions
 - `readme_test.go` — examples from the Readme to be sure they really work :)

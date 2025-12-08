@@ -19,6 +19,8 @@ func Test_Readme(t *testing.T) {
 		Deactivate := func(a *Account, deactivatedAt time.Time, evs *EventCollection) error {
 			Time().NotZero().LessEq(time.Now()).Must(deactivatedAt)
 			Cmp[*EventCollection]().NotEq(nil).Must(evs)
+			// --
+			NotNilDeepMust(evs)
 			// ...
 			return nil
 		}
