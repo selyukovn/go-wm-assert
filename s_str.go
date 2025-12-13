@@ -44,6 +44,10 @@ func (a *AString) Empty(customErrMsg ...string) *AString {
 	return a
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Not Empty
+// ---------------------------------------------------------------------------------------------------------------------
+
 // NotEmpty -- alias to NotEq(time.Time{})
 func (a *AString) NotEmpty(customErrMsg ...string) *AString {
 	a.NotEq("", customErrMsg...)
@@ -52,6 +56,9 @@ func (a *AString) NotEmpty(customErrMsg ...string) *AString {
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Substrings - Prefix
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Equal
 // ---------------------------------------------------------------------------------------------------------------------
 
 // PrefixEq
@@ -78,6 +85,9 @@ func (a *AString) PrefixEq(eq string, customErrMsg ...string) *AString {
 	return a
 }
 
+// Not Equal
+// ---------------------------------------------------------------------------------------------------------------------
+
 // PrefixNotEq
 //
 // Value expects to have prefix not equal to "notEq".
@@ -101,6 +111,9 @@ func (a *AString) PrefixNotEq(notEq string, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// In
+// ---------------------------------------------------------------------------------------------------------------------
 
 // PrefixIn
 //
@@ -129,6 +142,9 @@ func (a *AString) PrefixIn(in []string, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// Not In
+// ---------------------------------------------------------------------------------------------------------------------
 
 // PrefixNotIn
 //
@@ -163,6 +179,9 @@ func (a *AString) PrefixNotIn(notIn []string, customErrMsg ...string) *AString {
 // Substrings - Suffix
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Equal
+// ---------------------------------------------------------------------------------------------------------------------
+
 // SuffixEq
 //
 // Value expects to have suffix equal to "eq".
@@ -187,6 +206,9 @@ func (a *AString) SuffixEq(eq string, customErrMsg ...string) *AString {
 	return a
 }
 
+// Not Eq
+// ---------------------------------------------------------------------------------------------------------------------
+
 // SuffixNotEq
 //
 // Value expects to have suffix not equal to "notEq".
@@ -210,6 +232,9 @@ func (a *AString) SuffixNotEq(notEq string, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// In
+// ---------------------------------------------------------------------------------------------------------------------
 
 // SuffixIn
 //
@@ -238,6 +263,9 @@ func (a *AString) SuffixIn(in []string, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// Not In
+// ---------------------------------------------------------------------------------------------------------------------
 
 // SuffixNotIn
 //
@@ -272,6 +300,9 @@ func (a *AString) SuffixNotIn(notIn []string, customErrMsg ...string) *AString {
 // Substrings - Contains
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Contains
+// ---------------------------------------------------------------------------------------------------------------------
+
 // ContainsStr
 //
 // Value expects to contain provided substring.
@@ -296,6 +327,9 @@ func (a *AString) ContainsStr(s string, customErrMsg ...string) *AString {
 	return a
 }
 
+// Not Contains
+// ---------------------------------------------------------------------------------------------------------------------
+
 // NotContainsStr
 //
 // Value expects to not contain provided substring.
@@ -319,6 +353,9 @@ func (a *AString) NotContainsStr(s string, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// Contains Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 // ContainsStrAny
 //
@@ -349,6 +386,9 @@ func (a *AString) ContainsStrAny(ss []string, customErrMsg ...string) *AString {
 	return a
 }
 
+// Contains Each
+// ---------------------------------------------------------------------------------------------------------------------
+
 // ContainsStrEach
 //
 // Value expects to contain each of provided substrings.
@@ -377,6 +417,9 @@ func (a *AString) ContainsStrEach(ss []string, customErrMsg ...string) *AString 
 	})
 	return a
 }
+
+// Contains None
+// ---------------------------------------------------------------------------------------------------------------------
 
 // ContainsStrNone
 //
@@ -411,6 +454,9 @@ func (a *AString) ContainsStrNone(ss []string, customErrMsg ...string) *AString 
 // Runes
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Equal
+// ---------------------------------------------------------------------------------------------------------------------
+
 // RunesEq
 //
 // Runes count of the value expects to be equal to "eq".
@@ -434,6 +480,9 @@ func (a *AString) RunesEq(eq int, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// Not Equal
+// ---------------------------------------------------------------------------------------------------------------------
 
 // RunesNotEq
 //
@@ -459,9 +508,14 @@ func (a *AString) RunesNotEq(notEq int, customErrMsg ...string) *AString {
 	return a
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+
 func (a *AString) runesOrdCmp(b, s int) bool {
 	return b > s
 }
+
+// Min
+// ---------------------------------------------------------------------------------------------------------------------
 
 // RunesMin
 //
@@ -487,6 +541,9 @@ func (a *AString) RunesMin(min int, customErrMsg ...string) *AString {
 	return a
 }
 
+// Max
+// ---------------------------------------------------------------------------------------------------------------------
+
 // RunesMax
 //
 // Runes count of the value expects to be less or equal to "max".
@@ -510,6 +567,9 @@ func (a *AString) RunesMax(max int, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // RunesInRange
 //
@@ -539,6 +599,9 @@ func (a *AString) RunesInRange(min, max int, customErrMsg ...string) *AString {
 	})
 	return a
 }
+
+// Not In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // RunesNotInRange
 //

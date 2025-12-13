@@ -46,11 +46,17 @@ func (m *mixinOrdered[A, T]) less(orEq bool, than T, customErrMsg []string) A {
 }
 
 // Less
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Less
 //
 // Value expects to be less than "than".
 func (m *mixinOrdered[A, T]) Less(than T, customErrMsg ...string) A {
 	return m.less(false, than, customErrMsg)
 }
+
+// Less or Equal
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LessEq
 //
@@ -59,7 +65,9 @@ func (m *mixinOrdered[A, T]) LessEq(than T, customErrMsg ...string) A {
 	return m.less(true, than, customErrMsg)
 }
 
-// ----
+// ---------------------------------------------------------------------------------------------------------------------
+// Less Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinOrdered[A, T]) lessAny(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
@@ -84,6 +92,9 @@ func (m *mixinOrdered[A, T]) lessAny(orEq bool, elems []T, customErrMsg []string
 	return m.assert
 }
 
+// Less Any
+// ---------------------------------------------------------------------------------------------------------------------
+
 // LessAny
 //
 // Value expects to be less than any of provided elements.
@@ -92,6 +103,9 @@ func (m *mixinOrdered[A, T]) lessAny(orEq bool, elems []T, customErrMsg []string
 func (m *mixinOrdered[A, T]) LessAny(elems []T, customErrMsg ...string) A {
 	return m.lessAny(false, elems, customErrMsg)
 }
+
+// Less or Equal Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LessEqAny
 //
@@ -102,7 +116,9 @@ func (m *mixinOrdered[A, T]) LessEqAny(elems []T, customErrMsg ...string) A {
 	return m.lessAny(true, elems, customErrMsg)
 }
 
-// ----
+// ---------------------------------------------------------------------------------------------------------------------
+// Less Each
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinOrdered[A, T]) lessEach(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
@@ -127,6 +143,9 @@ func (m *mixinOrdered[A, T]) lessEach(orEq bool, elems []T, customErrMsg []strin
 	return m.assert
 }
 
+// Less Each
+// ---------------------------------------------------------------------------------------------------------------------
+
 // LessEach
 //
 // Value expects to be less than each of provided elements.
@@ -135,6 +154,9 @@ func (m *mixinOrdered[A, T]) lessEach(orEq bool, elems []T, customErrMsg []strin
 func (m *mixinOrdered[A, T]) LessEach(elems []T, customErrMsg ...string) A {
 	return m.lessEach(false, elems, customErrMsg)
 }
+
+// Less or Equal Each
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LessEqEach
 //
@@ -168,11 +190,17 @@ func (m *mixinOrdered[A, T]) greater(orEq bool, than T, customErrMsg []string) A
 }
 
 // Greater
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Greater
 //
 // Value expects to be greater than "than".
 func (m *mixinOrdered[A, T]) Greater(than T, customErrMsg ...string) A {
 	return m.greater(false, than, customErrMsg)
 }
+
+// Greater or Equal
+// ---------------------------------------------------------------------------------------------------------------------
 
 // GreaterEq
 //
@@ -181,7 +209,9 @@ func (m *mixinOrdered[A, T]) GreaterEq(than T, customErrMsg ...string) A {
 	return m.greater(true, than, customErrMsg)
 }
 
-// ----
+// ---------------------------------------------------------------------------------------------------------------------
+// Greater Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinOrdered[A, T]) greaterAny(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
@@ -206,6 +236,9 @@ func (m *mixinOrdered[A, T]) greaterAny(orEq bool, elems []T, customErrMsg []str
 	return m.assert
 }
 
+// Greater Any
+// ---------------------------------------------------------------------------------------------------------------------
+
 // GreaterAny
 //
 // Value expects to be greater than any of provided elements.
@@ -214,6 +247,9 @@ func (m *mixinOrdered[A, T]) greaterAny(orEq bool, elems []T, customErrMsg []str
 func (m *mixinOrdered[A, T]) GreaterAny(elems []T, customErrMsg ...string) A {
 	return m.greaterAny(false, elems, customErrMsg)
 }
+
+// Greater or Equal Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 // GreaterEqAny
 //
@@ -224,7 +260,9 @@ func (m *mixinOrdered[A, T]) GreaterEqAny(elems []T, customErrMsg ...string) A {
 	return m.greaterAny(true, elems, customErrMsg)
 }
 
-// ----
+// ---------------------------------------------------------------------------------------------------------------------
+// Greater Each
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinOrdered[A, T]) greaterEach(orEq bool, elems []T, customErrMsg []string) A {
 	m.assert.addCheck(func(v T) error {
@@ -249,6 +287,9 @@ func (m *mixinOrdered[A, T]) greaterEach(orEq bool, elems []T, customErrMsg []st
 	return m.assert
 }
 
+// Greater Each
+// ---------------------------------------------------------------------------------------------------------------------
+
 // GreaterEach
 //
 // Value expects to be greater than each of provided elements.
@@ -257,6 +298,9 @@ func (m *mixinOrdered[A, T]) greaterEach(orEq bool, elems []T, customErrMsg []st
 func (m *mixinOrdered[A, T]) GreaterEach(elems []T, customErrMsg ...string) A {
 	return m.greaterEach(false, elems, customErrMsg)
 }
+
+// Greater or Equal Each
+// ---------------------------------------------------------------------------------------------------------------------
 
 // GreaterEqEach
 //
@@ -273,6 +317,9 @@ func (m *mixinOrdered[A, T]) GreaterEqEach(elems []T, customErrMsg ...string) A 
 // The "min <= max" rule check is unnecessary here, since it doesn't affect the consistency of the internal state.
 // Panics or errors won't simplify the method interface,
 // but won't provide any benefit to either the current library or to the client code.
+// ---------------------------------------------------------------------------------------------------------------------
+
+// In Range
 // ---------------------------------------------------------------------------------------------------------------------
 
 // InRange
@@ -299,6 +346,9 @@ func (m *mixinOrdered[A, T]) InRange(min T, max T, customErrMsg ...string) A {
 	})
 	return m.assert
 }
+
+// Not In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // NotInRange
 //

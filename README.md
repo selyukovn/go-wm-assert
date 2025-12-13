@@ -3,7 +3,7 @@
 ## TL;DR
 
 Simple, type‑specific fluent assertions for Go
-(initially inspired by [php webmozart/assert](https://github.com/webmozart/assert)).
+(initially inspired by [PHP webmozart/assert](https://github.com/webmozart/assert)).
 
 Requires Go (1.18) or later.
 
@@ -13,8 +13,8 @@ assert.Str().Word().LenMax(5).Check(value)
 
 ## Reasons
 
-If you’ve ever worked with php, you probably used [webmozart/assert](https://github.com/webmozart/assert) package.
-It made it easy to validate method arguments with supplementary criteria in addition to type checking --
+If you’ve ever worked with _PHP_, you probably used the [webmozart/assert](https://github.com/webmozart/assert) package.
+It made it easy to validate method arguments using supplementary criteria in addition to type checking --
 for example, verifying that integers were natural or strings were non‑empty.
 Moreover, combinations of such checks could be used to build more complex validations
 instead of using heavy validation frameworks that might impose compromises on project design.
@@ -31,18 +31,26 @@ So something else was needed...
 Something _simpler_...
 Something more _type-specific_...
 Something more _friendly_...
-Something like this package! :)
+Something like this package! 😊
 
 ## Description
 
-This package ~~un autre package de validation, mais avec les cartes et les femmes fatales~~
-provides a simple type-specific fluent interface to build validations in a way like
+This package ~~un autre package de validation, mais avec les cartes à jouer et les femmes fatales~~
+provides a simple type-specific fluent interface for building validations like
 
 ```
 assert.Str().Word().LenMax(5).Check(value)
 ```
 
-The package provides assertions for specific types:
+The package provides assertions for specific types as well as more abstract assertions for broader type support.
+
+Each assertion supports only specific methods relevant to its value type -- this prevents accidental mistakes.
+For example, it is impossible to validate integer value via some length-based rule,
+because [`Num`](s_num.go) assertion does not have methods to add such validation to the chain.
+
+Each assertion supports a [`Custom()`](b_mix_custom.go) check for cases not covered by built-ins.
+
+### Specific assertions
 
 - [`Bool`](s_bool.go)
 - [`Num`](s_num.go) -- for all _int_, _uint_ and _float_ based types (see [`NumericTypes`](s_num.go))
@@ -50,39 +58,45 @@ The package provides assertions for specific types:
 - [`Time`](s_time.go) -- for `time.Time` type
 - [`TimeDur`](s_time_dur.go) -- for `time.Duration` type
 
-as well as more abstract assertions for broader type support:
+### General assertions
 
 - [`Any`](s_any.go) -- for any type
 - [`Cmp`](s_cmp.go) -- for any comparable type
 - [`SliceAny`](s_slice_any.go) -- for slice-based types with any type of elements
 - [`SliceCmp`](s_slice_cmp.go) -- for slice-based types with comparable type of elements
 
-Each assertion supports only specific methods related to its value type -- this protects you from accidental mistakes.
-For example, it is impossible to validate integer value via some length-based rule,
-because [`Num`](s_num.go) assertion does not have methods to add such validation to the chain.
-
-Each assertion supports a [`Custom()`](b_mix_custom.go) check for cases not covered by built-ins.
+### Getting results
 
 Assertions support a few types of results:
-- panic via the [`Must()`](b_assert.go) or [`MustAll()`]((b_assert.go)) methods
-- panic or returning value via the [`MustGet()`](b_assert.go) or [`MustAllGet()`]((b_assert.go)) methods
-- returning errors via the [`Check()`](b_assert.go) or [`CheckAll()`](b_assert.go) methods
 
-Error messages can be customized for any rule as well as for the whole chain.
+- _panic_ -- via [`Must()`](b_assert.go) or [`MustAll()`](b_assert.go) methods
+- _panic or returning value_ -- via [`MustGet()`](b_assert.go) or [`MustAllGet()`](b_assert.go) methods
+- _returning errors_ -- via [`Check()`](b_assert.go) or [`CheckAll()`](b_assert.go) methods
+
+### Custom messages
+
+Each _rule_ and _result_ method can optionally take custom message in the `customErrMsg` argument:
+- If a _rule_ method is customized, the custom message replaces the default message when rule fails.
+- If a _result_ method is customized, the custom message replaces any message when the chain fails.
+
+### Shortcuts
 
 The package also provides [shortcuts](shortcuts.go)
-for the most popular assertions in package-level functions with `...Check` / `...Must` / `...MustGet` result versions:
-- `NotZero` 
-- `NotNilDeep`
-- `True`
-- `False`
+for the most popular assertions in package-level functions with `...Check`, `...Must` and `...MustGet` result variants:
+
+- `NotZero`...
+- `NotNilDeep`...
+- `True`...
+- `False`...
 
 ## [Examples](readme_test.go)
 
-### Method arguments assertion (primary use-case)
+### Assertion
 
 This is the initial use-case of this package -- ensuring without ugly boilerplate code
 that method works with valid values of the argument types, not with nil-pointers, etc.
+
+#### Arguments assertion
 
 ```go
 package example
@@ -98,7 +112,8 @@ type EventCollection struct{ /* ... */ }
 func (a *Account) Deactivate(deactivatedAt time.Time, evs *EventCollection) error {
 	assert.Time().NotZero().LessEq(time.Now()).Must(deactivatedAt)
 	assert.Cmp[*EventCollection]().NotEq(nil).Must(evs)
-	// or with popular shortcut instead of Cmp[T]
+
+	// or with popular shortcut for `evs`
 	assert.NotNilDeepMust(evs)
 
 	// ...
@@ -107,10 +122,36 @@ func (a *Account) Deactivate(deactivatedAt time.Time, evs *EventCollection) erro
 }
 ```
 
-### Simple validation (secondary use-case)
+#### Config assertion
 
-Looks the same argument assertion,
-but customizing messages makes possible to use this package in outer layers, closer to end-user interaction code, etc.
+```go
+package config
+
+import (
+	"github.com/selyukovn/go-wm-assert"
+	"os"
+)
+
+func LoadEnv() *Env {
+	env = &Env{}
+
+	// ...
+
+	env.AppName = assert.Str().Word().MustGet(os.Getenv("APP_NAME"))
+	env.IsDebug = assert.Str().In([]string{"0", "1"}).MustGet(os.Getenv("IS_DEBUG"))
+
+	// ...
+
+	return env
+}
+```
+
+### Validation
+
+This package is not about a form validation,
+but customizing messages makes possible to use it as a "brick" to build the things you need in a simple and clean way.
+
+#### Simple validation
 
 ```go
 package example
@@ -134,10 +175,7 @@ func NameFromString(value string) (Name, error) {
 }
 ```
 
-### Form validation (possible use-case)
-
-This package is not about a form validation,
-but it can be used as a "brick" to build things you need without heavy validation libraries.
+#### Form validation
 
 ```go
 package example
@@ -219,4 +257,4 @@ func (f *SignUpForm) NameErrors() []error {
 - `b_*.go` — basic components
 - `s_*.go` — specific assertions (`Str`, `Num`, etc.)
 - `shortcuts.go` — shortcuts for the most popular assertions
-- `readme_test.go` — examples from the Readme to be sure they really work :)
+- `readme_test.go` — examples from the Readme (ensures correctness)

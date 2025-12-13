@@ -34,6 +34,16 @@ func Test_Readme(t *testing.T) {
 		tAssert.NotPanics(t, func() { _ = Deactivate(&Account{}, time.Now(), &EventCollection{}) })
 	})
 
+	// Config Assertion
+	// --------------------------------
+
+	t.Run("ConfigAssertion", func(t *testing.T) {
+		tAssert.NotPanics(t, func() {
+			Str().Word().MustGet("Some-App-Name")
+			Str().In([]string{"0", "1"}).MustGet("0")
+		})
+	})
+
 	// Simple Validation
 	// --------------------------------
 

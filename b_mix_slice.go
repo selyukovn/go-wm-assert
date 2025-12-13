@@ -41,6 +41,10 @@ func (m *mixinSliceAny[A, S, E]) Empty(customErrMsg ...string) A {
 	return m.assert
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Not Empty
+// ---------------------------------------------------------------------------------------------------------------------
+
 func (m *mixinSliceAny[A, S, E]) NotEmpty(customErrMsg ...string) A {
 	m.assert.addCheck(func(v S) error {
 		if len(v) == 0 {
@@ -56,6 +60,9 @@ func (m *mixinSliceAny[A, S, E]) NotEmpty(customErrMsg ...string) A {
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Match
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Any
 // ---------------------------------------------------------------------------------------------------------------------
 
 // CustomElementAny
@@ -90,6 +97,9 @@ func (m *mixinSliceAny[A, S, E]) CustomElementAny(
 	return m.assert
 }
 
+// Each
+// ---------------------------------------------------------------------------------------------------------------------
+
 // CustomElementEach
 //
 // Expects the slice with each element matched to custom condition.
@@ -122,6 +132,9 @@ func (m *mixinSliceAny[A, S, E]) CustomElementEach(
 	})
 	return m.assert
 }
+
+// None
+// ---------------------------------------------------------------------------------------------------------------------
 
 // CustomElementNone
 //
@@ -174,6 +187,9 @@ func newMixinSliceCmp[A assertInterface[S], S sliceType[E], E comparable](assert
 // Contains
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Contains
+// ---------------------------------------------------------------------------------------------------------------------
+
 func (m *mixinSliceCmp[A, S, E]) Contains(e E, customErrMsg ...string) A {
 	m.mixinSliceAny.assert.addCheck(func(v S) error {
 		for _, ev := range v {
@@ -188,6 +204,9 @@ func (m *mixinSliceCmp[A, S, E]) Contains(e E, customErrMsg ...string) A {
 	})
 	return m.mixinSliceAny.assert
 }
+
+// Not Contains
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinSliceCmp[A, S, E]) NotContains(e E, customErrMsg ...string) A {
 	m.mixinSliceAny.assert.addCheck(func(v S) error {
@@ -204,7 +223,8 @@ func (m *mixinSliceCmp[A, S, E]) NotContains(e E, customErrMsg ...string) A {
 	return m.mixinSliceAny.assert
 }
 
-// ----
+// Any
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinSliceCmp[A, S, E]) ContainsAny(s S, customErrMsg ...string) A {
 	m.mixinSliceAny.assert.addCheck(func(v S) error {
@@ -225,6 +245,9 @@ func (m *mixinSliceCmp[A, S, E]) ContainsAny(s S, customErrMsg ...string) A {
 	return m.mixinSliceAny.assert
 }
 
+// Each
+// ---------------------------------------------------------------------------------------------------------------------
+
 func (m *mixinSliceCmp[A, S, E]) ContainsEach(s S, customErrMsg ...string) A {
 	m.mixinSliceAny.assert.addCheck(func(v S) error {
 		mv := make(map[E]struct{}, len(v))
@@ -243,6 +266,9 @@ func (m *mixinSliceCmp[A, S, E]) ContainsEach(s S, customErrMsg ...string) A {
 	})
 	return m.mixinSliceAny.assert
 }
+
+// None
+// ---------------------------------------------------------------------------------------------------------------------
 
 func (m *mixinSliceCmp[A, S, E]) ContainsNone(s S, customErrMsg ...string) A {
 	m.mixinSliceAny.assert.addCheck(func(v S) error {
@@ -293,6 +319,10 @@ func (m *mixinSliceCmp[A, S, E]) Uniques(customErrMsg ...string) A {
 	return m.mixinSliceAny.assert
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Uniques Len
+// ---------------------------------------------------------------------------------------------------------------------
+
 func (m *mixinSliceCmp[A, S, E]) uniquesLen(v S) int {
 	me := make(map[E]struct{})
 	for _, e := range v {
@@ -300,6 +330,9 @@ func (m *mixinSliceCmp[A, S, E]) uniquesLen(v S) int {
 	}
 	return len(me)
 }
+
+// Equal
+// ---------------------------------------------------------------------------------------------------------------------
 
 // UniquesLenEq
 //
@@ -325,6 +358,9 @@ func (m *mixinSliceCmp[A, S, E]) UniquesLenEq(eq int, customErrMsg ...string) A 
 	return m.mixinSliceAny.assert
 }
 
+// Not Equal
+// ---------------------------------------------------------------------------------------------------------------------
+
 // UniquesLenNotEq
 //
 // Length of unique elements sub-slice expects to be not equal to "notEq".
@@ -348,6 +384,9 @@ func (m *mixinSliceCmp[A, S, E]) UniquesLenNotEq(notEq int, customErrMsg ...stri
 	})
 	return m.mixinSliceAny.assert
 }
+
+// Min
+// ---------------------------------------------------------------------------------------------------------------------
 
 // UniquesLenMin
 //
@@ -373,6 +412,9 @@ func (m *mixinSliceCmp[A, S, E]) UniquesLenMin(min int, customErrMsg ...string) 
 	return m.mixinSliceAny.assert
 }
 
+// Max
+// ---------------------------------------------------------------------------------------------------------------------
+
 // UniquesLenMax
 //
 // Length of unique elements sub-slice expects to be less or equal to "max".
@@ -396,6 +438,9 @@ func (m *mixinSliceCmp[A, S, E]) UniquesLenMax(max int, customErrMsg ...string) 
 	})
 	return m.mixinSliceAny.assert
 }
+
+// In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // UniquesLenInRange
 //
@@ -424,6 +469,9 @@ func (m *mixinSliceCmp[A, S, E]) UniquesLenInRange(min, max int, customErrMsg ..
 	})
 	return m.mixinSliceAny.assert
 }
+
+// Not In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // UniquesLenNotInRange
 //

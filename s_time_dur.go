@@ -44,6 +44,10 @@ func (a *ATimeDuration) Zero(customErrMsg ...string) *ATimeDuration {
 	return a
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Not Zero
+// ---------------------------------------------------------------------------------------------------------------------
+
 // NotZero -- alias to NotEq(time.Duration(0))
 func (a *ATimeDuration) NotZero(customErrMsg ...string) *ATimeDuration {
 	a.NotEq(time.Duration(0), customErrMsg...)

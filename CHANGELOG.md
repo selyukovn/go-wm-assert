@@ -1,4 +1,3 @@
-
 ## [0.2.1] - 2025-11-15
 
 *Note: v0.2.0 has been retracted.*
@@ -31,35 +30,35 @@
 ### FEATURES
 
 - Added [`Len`](b_mix_len.go) mixin (from `String` specific Len...-methods)
-  - LenEq / LenNotEq / LenMin / LenMax / LenInRange / LenNotInRange
-  - [`String`](s_str.go) from now includes all methods from `Len` mixin
+    - LenEq / LenNotEq / LenMin / LenMax / LenInRange / LenNotInRange
+    - [`String`](s_str.go) from now includes all methods from `Len` mixin
 
 - Added [`SliceAny`](b_mix_slice.go) mixin
-  - extends `Len` mixin
-  - Empty / NotEmpty
-  - CustomElementAny / CustomElementEach / CustomElementNone
+    - extends `Len` mixin
+    - Empty / NotEmpty
+    - CustomElementAny / CustomElementEach / CustomElementNone
 
 - Added [`SliceCmp`](b_mix_slice.go) mixin
-  - extends `SliceAny` mixin
-  - Contains / NotContains / ContainsAny / ContainsEach / ContainsNone
-  - Uniques
-  - UniquesLenEq / UniquesLenNotEq / UniquesLenMin / UniquesLenMax / UniquesLenInRange / UniquesLenNotInRange
+    - extends `SliceAny` mixin
+    - Contains / NotContains / ContainsAny / ContainsEach / ContainsNone
+    - Uniques
+    - UniquesLenEq / UniquesLenNotEq / UniquesLenMin / UniquesLenMax / UniquesLenInRange / UniquesLenNotInRange
 
 - Added [`SliceAny`](s_slice_any.go) specific type
-  - `Custom` mixin
-  - `SliceAny` mixin
+    - `Custom` mixin
+    - `SliceAny` mixin
 
 - Added [`SliceCmp`](s_slice_cmp.go) specific type
-  - `Custom` mixin
-  - `SliceCmp` mixin
+    - `Custom` mixin
+    - `SliceCmp` mixin
 
 - Added new rules to [`String`](s_str.go) specific type
-  - to check substrings 
-    - PrefixEq / PrefixNotEq / PrefixIn / PrefixNotIn
-    - SuffixEq / SuffixNotEq / SuffixIn / SuffixNotIn
-    - ContainsStr / NotContainsStr / ContainsStrAny / ContainsStrEach / ContainsStrNone
-  - to check number of runes
-    - RunesEq / RunesNotEq / RunesMin / RunesMax / RunesInRange / RunesNotInRange 
+    - to check substrings
+        - PrefixEq / PrefixNotEq / PrefixIn / PrefixNotIn
+        - SuffixEq / SuffixNotEq / SuffixIn / SuffixNotIn
+        - ContainsStr / NotContainsStr / ContainsStrAny / ContainsStrEach / ContainsStrNone
+    - to check number of runes
+        - RunesEq / RunesNotEq / RunesMin / RunesMax / RunesInRange / RunesNotInRange
 
 - Improved [`README.md`](README.md)
 
@@ -78,58 +77,58 @@ First implementation of the package.
 - Fluent chaining (e.g., `assert.String().Word().LenMax(5).Check(value)`).
 
 - `Must`/`MustAll` methods panic; `Check`/`CheckAll` return errors.
-  
+
 - Custom error messages for each chain part or for the whole chain to override any result error.
 
 - Inner logic is based on mixins:
     - [`Comparable`](b_mix_comparable.go)
-      - Eq / NotEq
-      - In / NotIn
-  
+        - Eq / NotEq
+        - In / NotIn
+
     - [`Custom`](b_mix_custom.go)
-      - Custom
+        - Custom
 
     - [`Ordered`](b_mix_ordered.go)
-      - Less / LessEq / LessAny / LessEqAny / LessEach / LessEqEach
-      - Greater / GreaterEq / GreaterAny / GreaterEqAny / GreaterEach / GreaterEqEach
-      - InRange / NotInRange
+        - Less / LessEq / LessAny / LessEqAny / LessEach / LessEqEach
+        - Greater / GreaterEq / GreaterAny / GreaterEqAny / GreaterEach / GreaterEqEach
+        - InRange / NotInRange
 
-- Type‑specific assertions: 
-    - [`Bool`](s_bool.go) 
-      - `Comparable` mixin
-      - `Custom` mixin
-      - True / False aliases
+- Type‑specific assertions:
+    - [`Bool`](s_bool.go)
+        - `Comparable` mixin
+        - `Custom` mixin
+        - True / False aliases
 
     - [`Comparable[T comparable]`](s_cmp.go)
-      - `Comparable` mixin
-      - `Custom` mixin
+        - `Comparable` mixin
+        - `Custom` mixin
 
     - [`Numeric[T NumericTypes]`](s_num.go)
-      - `Comparable` mixin
-      - `Custom` mixin
-      - `Ordered` mixin
-      - sign aliases: Negative / Zero / NotZero / Positive
+        - `Comparable` mixin
+        - `Custom` mixin
+        - `Ordered` mixin
+        - sign aliases: Negative / Zero / NotZero / Positive
 
-    - [`String`](s_str.go) 
-      - `Comparable` mixin
-      - `Custom` mixin
-      - Empty / NotEmpty aliases
-      - LenEq / LenNotEq / LenMin / LenMax / LenInRange / LenNotInRange
-      - Regexp with Word and Numeric aliases
+    - [`String`](s_str.go)
+        - `Comparable` mixin
+        - `Custom` mixin
+        - Empty / NotEmpty aliases
+        - LenEq / LenNotEq / LenMin / LenMax / LenInRange / LenNotInRange
+        - Regexp with Word and Numeric aliases
 
     - [`Time`](s_time.go)
-      - `Comparable` mixin
-      - `Custom` mixin
-      - `Ordered` mixin
-      - Zero / NotZero aliases
+        - `Comparable` mixin
+        - `Custom` mixin
+        - `Ordered` mixin
+        - Zero / NotZero aliases
 
     - [`TimeDuration`](s_time_dur.go)
-      - `Comparable` mixin
-      - `Custom` mixin
-      - `Ordered` mixin
-      - Zero / NotZero aliases
+        - `Comparable` mixin
+        - `Custom` mixin
+        - `Ordered` mixin
+        - Zero / NotZero aliases
 
 - Tests for
-  - core components (basic assertion; mixins, except `Custom`; some helper functions)
-  - complex type‑specific assertions (`String`) 
-  - examples from the Readme file
+    - core components (basic assertion; mixins, except `Custom`; some helper functions)
+    - complex type‑specific assertions (`String`)
+    - examples from the Readme file

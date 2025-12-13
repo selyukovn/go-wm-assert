@@ -38,6 +38,10 @@ func (a *ATime) Zero(customErrMsg ...string) *ATime {
 	return a
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Not Zero
+// ---------------------------------------------------------------------------------------------------------------------
+
 // NotZero -- alias to NotEq(time.Time{})
 func (a *ATime) NotZero(customErrMsg ...string) *ATime {
 	a.NotEq(time.Time{}, customErrMsg...)

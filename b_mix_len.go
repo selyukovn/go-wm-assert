@@ -39,6 +39,9 @@ func (m *mixinLen[A, T]) lenVal(v T) int {
 	}
 }
 
+// Eq
+// ---------------------------------------------------------------------------------------------------------------------
+
 // LenEq
 //
 // Length expects to be equal to "eq".
@@ -62,6 +65,9 @@ func (m *mixinLen[A, T]) LenEq(eq int, customErrMsg ...string) A {
 	})
 	return m.assert
 }
+
+// Not Eq
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LenNotEq
 //
@@ -87,6 +93,9 @@ func (m *mixinLen[A, T]) LenNotEq(notEq int, customErrMsg ...string) A {
 	return m.assert
 }
 
+// Min
+// ---------------------------------------------------------------------------------------------------------------------
+
 // LenMin
 //
 // Length expects to be greater or equal to "min".
@@ -111,6 +120,9 @@ func (m *mixinLen[A, T]) LenMin(min int, customErrMsg ...string) A {
 	return m.assert
 }
 
+// Max
+// ---------------------------------------------------------------------------------------------------------------------
+
 // LenMax
 //
 // Length expects to be less or equal to "max".
@@ -134,6 +146,9 @@ func (m *mixinLen[A, T]) LenMax(max int, customErrMsg ...string) A {
 	})
 	return m.assert
 }
+
+// In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LenInRange
 //
@@ -163,6 +178,9 @@ func (m *mixinLen[A, T]) LenInRange(min, max int, customErrMsg ...string) A {
 	})
 	return m.assert
 }
+
+// Not In Range
+// ---------------------------------------------------------------------------------------------------------------------
 
 // LenNotInRange
 //
