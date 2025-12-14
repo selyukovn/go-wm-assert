@@ -1,3 +1,34 @@
+## [0.3.0] - 2025-12-14
+
+### FEATURES
+
+- Added shorter aliases [`Str`](s_str.go), [`Num`](s_num.go), [`Cmp`](s_cmp.go) and [`TimeDur`](s_time_dur.go)
+  to use instead of the long named `String`, `Numeric`, `Comparable` and `TimeDuration`, which were marked as
+  deprecated.
+
+- [`NumericTypes`](s_num.go) type constraint also allows types based on the built-in numeric types
+
+- Added [`MustGet`](b_assert.go) and [`MustAllGet`](b_assert.go) result methods
+
+- Added [`Any`](s_any.go) specific assertion:
+    - extends `Custom` mixin
+    - NotZero
+    - NotNilDeep
+
+- Added [shortcuts](shortcuts.go):
+    - NotZeroCheck / NotZeroMust / NotZeroMustGet
+    - NotNilDeepCheck / NotNilDeepMust / NotNilDeepMustGet
+    - TrueCheck / TrueMust
+    - FalseCheck / FalseMust
+
+### IMPROVEMENTS
+
+- Default messages show values types
+
+- Improved README.md
+
+---
+
 ## [0.2.1] - 2025-11-15
 
 *Note: v0.2.0 has been retracted.*
